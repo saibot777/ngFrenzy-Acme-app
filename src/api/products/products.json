@@ -1,21 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'pm-products',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
-})
-export class ProductListComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  pageTitle: string = 'Product List';
-  imageWidth: number = 50;
-  imageMargin: number = 2;
-  products: any[] = [
+[
     {
         "productId": 1,
         "productName": "Leaf Rake",
@@ -66,6 +49,4 @@ export class ProductListComponent implements OnInit {
         "starRating": 4.6,
         "imageUrl": "http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
     }
-  ];
-
-}
+]
