@@ -11,6 +11,7 @@ export class ProductListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
   pageTitle: string = 'Product List';
