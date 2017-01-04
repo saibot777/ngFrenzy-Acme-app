@@ -1,11 +1,11 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{pageTitle}}
+<div class="card card-primary">
+  <div class="card-heading">
+    <h2>{{pageTitle}}</h2>
   </div>
-  <div class="panel-body">
+  <div class="card-block">
     <div class="row">
-      <div class="col-md-2">Filter by:</div>
-      <div class="col-md-4">
+      <div class="col-md-6">
+        Filter by:
         <input [(ngModel)]="listFilter" type="text">
       </div>
     </div>
@@ -20,7 +20,7 @@
           <tr>
             <th>
               <button type="button"
-                class="btn btn-primary"
+                class="btn"
                 (click)="toggleImage()">{{showImage ? 'Hide' : 'Show'}} Image
               </button>
             </th>

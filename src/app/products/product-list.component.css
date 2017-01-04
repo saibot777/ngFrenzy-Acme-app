@@ -1,3 +1,15 @@
-thead {
-  color: #337ab7;
+h3 {
+  margin-top: 20px;
+}
+h3,
+div,
+thead,
+th,
+td,
+button {
+  color: #fff;
+}
+button {
+  background-color: transparent;
+  border: 2px solid #fff;
 }
