@@ -1,12 +1,7 @@
-nav {
-  border: 1px solid lightgray;
-  border-left: 0;
-  border-right: 0;
-  background: rgba(211, 211, 211, 0.17);
+li {
+    font-size: large;
 }
 
-.main {
-  margin-top: 50px;
-    padding: 3rem 1.5rem;
-    text-align: center;
+div.panel-heading {
+   font-size: x-large; 
 }
