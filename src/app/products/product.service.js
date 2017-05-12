@@ -13,28 +13,84 @@ var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/do");
 require("rxjs/add/operator/catch");
-require("rxjs/add/operator/map");
 require("rxjs/add/observable/throw");
+require("rxjs/add/operator/map");
+require("rxjs/add/observable/of");
 var ProductService = (function () {
-    function ProductService(_http) {
-        this._http = _http;
-        this._productUrl = 'api/products/products.json';
+    function ProductService(http) {
+        this.http = http;
+        this.baseUrl = 'api/products';
     }
     ProductService.prototype.getProducts = function () {
-        return this._http.get(this._productUrl)
-            .map(function (response) { return response.json(); })
-            .do(function (data) { return console.log('All: ' + JSON.stringify(data)); })
+        return this.http.get(this.baseUrl)
+            .map(this.extractData)
+            .do(function (data) { return console.log('getProducts: ' + JSON.stringify(data)); })
             .catch(this.handleError);
     };
     ProductService.prototype.getProduct = function (id) {
-        return this.getProducts()
-            .map(function (products) { return products.find(function (p) { return p.productId === id; }); });
+        if (id === 0) {
+            return Observable_1.Observable.of(this.initializeProduct());
+        }
+        ;
+        var url = this.baseUrl + "/" + id;
+        return this.http.get(url)
+            .map(this.extractData)
+            .do(function (data) { return console.log('getProduct: ' + JSON.stringify(data)); })
+            .catch(this.handleError);
+    };
+    ProductService.prototype.deleteProduct = function (id) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        var url = this.baseUrl + "/" + id;
+        return this.http.delete(url, options)
+            .do(function (data) { return console.log('deleteProduct: ' + JSON.stringify(data)); })
+            .catch(this.handleError);
+    };
+    ProductService.prototype.saveProduct = function (product) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        if (product.id === 0) {
+            return this.createProduct(product, options);
+        }
+        return this.updateProduct(product, options);
+    };
+    ProductService.prototype.createProduct = function (product, options) {
+        product.id = undefined;
+        return this.http.post(this.baseUrl, product, options)
+            .map(this.extractData)
+            .do(function (data) { return console.log('createProduct: ' + JSON.stringify(data)); })
+            .catch(this.handleError);
+    };
+    ProductService.prototype.updateProduct = function (product, options) {
+        var url = this.baseUrl + "/" + product.id;
+        return this.http.put(url, product, options)
+            .map(function () { return product; })
+            .do(function (data) { return console.log('updateProduct: ' + JSON.stringify(data)); })
+            .catch(this.handleError);
+    };
+    ProductService.prototype.extractData = function (response) {
+        var body = response.json();
+        return body.data || {};
     };
     ProductService.prototype.handleError = function (error) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');
+    };
+    ProductService.prototype.initializeProduct = function () {
+        // Return an initialized object
+        return {
+            id: 0,
+            productName: null,
+            productCode: null,
+            tags: [''],
+            releaseDate: null,
+            price: null,
+            description: null,
+            starRating: null,
+            imageUrl: null
+        };
     };
     return ProductService;
 }());

@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var product_service_1 = require("./product.service");
 var ProductListComponent = (function () {
-    function ProductListComponent(_productService) {
-        this._productService = _productService;
+    function ProductListComponent(productService) {
+        this.productService = productService;
         this.pageTitle = 'Product List';
         this.imageWidth = 50;
         this.imageMargin = 2;
@@ -23,7 +23,7 @@ var ProductListComponent = (function () {
     };
     ProductListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._productService.getProducts()
+        this.productService.getProducts()
             .subscribe(function (products) { return _this.products = products; }, function (error) { return _this.errorMessage = error; });
     };
     ProductListComponent.prototype.onRatingClicked = function (message) {
